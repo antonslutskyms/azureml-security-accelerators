@@ -1,0 +1,35 @@
+{
+    "mode" : "all",
+    "parameters": {
+    "effect": {
+        "type": "String",
+        "metadata": {
+        "displayName": "Effect",
+        "description": ""
+        },
+        "allowedValues": [
+        "Audit",
+        "Deny",
+        "Disabled"
+        ],
+        "defaultValue": "Deny"
+    }
+    },
+    "policyRule": {
+        "if": {
+            "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.MachineLearningServices/workspaces/computes"
+            },
+            {
+                "field": "identity.userAssignedIdentities",
+                "containsKey": "/subscriptions/<YOUR SUBSCRIPTION ID>/resourcegroups/<YOUR RESOURCE GROUP>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-policy-identity"
+            }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    }
+}
